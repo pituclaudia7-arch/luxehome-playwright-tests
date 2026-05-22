@@ -1,87 +1,62 @@
 import { test, expect } from '@playwright/test';
+import { ProductPage } from '../pages/ProductPage';
+import { CartPage } from '../pages/CartPage';
 
 test.describe('LuxeHome Product Page', () => {
+  let productPage: ProductPage;
+  let cartPage: CartPage;
 
-  test('Product information is displayed correctly', async ({ page }) => {
-
-    await page.goto('https://daristr.github.io/luxehome-qa/#/product/1');
-
-    await expect(
-      page.getByRole('heading', { name: 'Nordic Comfort Sofa' })
-    ).toBeVisible();
-
-    await expect(
-      page.getByText('$1299')
-    ).toBeVisible();
-
-    await expect(
-      page.getByTestId('product-category')
-    ).toHaveText('sofas');
-
-    await expect(
-      page.getByText('LH-00001')
-    ).toBeVisible();
-
-    await expect(
-      page.getByTestId('stock-info')
-    ).toHaveText('5 in stock');
-
+  test.beforeEach(async ({ page }) => {
+    productPage = new ProductPage(page);
+    cartPage = new CartPage(page);
   });
 
-test('Quantity cannot go below 1', async ({ page }) => {
+  test('Product information is displayed correctly', async () => {
+    await productPage.gotoProduct(1);
 
-  await page.goto('https://daristr.github.io/luxehome-qa/#/product/1');
+    await expect(productPage.page.getByRole('heading', { name: 'Nordic Comfort Sofa' })).toBeVisible();
+    await expect(productPage.page.getByText('$1299')).toBeVisible();
+    await expect(productPage.productCategory).toHaveText('sofas');
+    await expect(productPage.page.getByText('LH-00001')).toBeVisible();
+    await expect(productPage.stockInfo).toHaveText('5 in stock');
+  });
 
-  const minusButton = page.getByTestId('btn-qty-decrease');
-  const quantityInput = page.getByTestId('input-quantity');
+  test('Quantity cannot go below 1', async () => {
+    await productPage.gotoProduct(1);
 
-  await expect(quantityInput).toHaveValue('1');
+    await expect(productPage.quantityInput).toHaveValue('1');
 
-  await minusButton.click();
+    await productPage.decreaseQuantityButton.click();
 
-  await expect(quantityInput).toHaveValue('1');
+    await expect(productPage.quantityInput).toHaveValue('1');
+  });
 
-});
+  test('Quantity cannot exceed available stock', async () => {
+    const stock = 7;
+    const clicksAboveStock = stock + 3;
 
-test('Quantity cannot exceed available stock', async ({ page }) => {
+    await productPage.gotoProduct(9);
 
-  await page.goto('https://daristr.github.io/luxehome-qa/#/product/9');
+    await expect(productPage.stockInfo).toHaveText(`${stock} in stock`);
 
-  const plusButton = page.getByTestId('btn-qty-increase');
-  const quantityInput = page.getByTestId('input-quantity');
+    await productPage.increaseQuantity(clicksAboveStock);
 
-  await expect(
-    page.getByTestId('stock-info')
-  ).toHaveText('7 in stock');
+    await expect(productPage.quantityInput).toHaveValue(String(stock));
+  });
 
-  for (let i = 0; i < 10; i++) {
-    await plusButton.click();
-  }
+  test('Add to Cart keeps selected quantity', async () => {
+    const selectedQuantity = 4;
+    const clicksToReachSelectedQuantity = selectedQuantity - 1;
 
-  await expect(quantityInput).toHaveValue('7');
+    await productPage.gotoProduct(1);
 
-});
+    await productPage.increaseQuantity(clicksToReachSelectedQuantity);
 
-test('Add to Cart keeps selected quantity', async ({ page }) => {
+    await expect(productPage.quantityInput).toHaveValue(String(selectedQuantity));
 
-  await page.goto('https://daristr.github.io/luxehome-qa/#/product/1');
+    await productPage.addToCart();
+    await productPage.openCart();
 
-  const plusButton = page.getByTestId('btn-qty-increase');
-  const quantityInput = page.getByTestId('input-quantity');
-
-  for (let i = 0; i < 3; i++) {
-    await plusButton.click();
-  }
-
-  await expect(quantityInput).toHaveValue('4');
-
-  await page.getByTestId('btn-add-to-cart').click();
-
-  await page.getByTestId('btn-nav-cart').click();
-
-  const cartQuantityInput = page.locator('input[type="number"]').last();
-
-  await expect(cartQuantityInput).toHaveValue('4');
-
-});
+    await cartPage.expectQuantity(selectedQuantity);
+  });
 });
