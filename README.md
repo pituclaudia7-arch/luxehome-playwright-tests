@@ -1,13 +1,14 @@
 # LuxeHome product-page QA
 
-Playwright and TypeScript tests for the LuxeHome demo store. The default-branch suite covers product details, quantity limits, and whether the selected quantity carries through to the cart. Product and cart page objects group reusable selectors and actions.
+Playwright and TypeScript tests for the LuxeHome demo store. The suite covers product details, quantity limits, and whether the selected quantity carries through to the cart. Product and cart page objects group reusable selectors and actions.
 
 ## Start here
 
 - [Product-page spec](tests/product-page.spec.ts) — four functional checks covering product information, minimum quantity, stock limits, and cart quantity.
 - [ProductPage](pages/ProductPage.ts) and [CartPage](pages/CartPage.ts) — typed page objects.
-- [Keyboard check in the draft PR](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/blob/portfolio/recruiter-review/tests/product-accessibility.spec.ts) — tabs to the quantity increase button, activates it with Enter, and checks that the quantity changes.
-- [Draft CI and keyboard-check PR](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/pull/1) — workflow and accessibility test under review.
+- [Keyboard check](tests/product-accessibility.spec.ts) — tabs to the quantity increase button, activates it with Enter, and checks that the quantity changes.
+- [Cart quantity bug report](docs/cart-quantity-bug-report.md) — environment, reproduction steps, and expected and observed behavior.
+- [GitHub Actions runs](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/actions/workflows/playwright.yml) — cross-browser results and downloadable HTML reports when available.
 
 ## Verified demo results
 
