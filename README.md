@@ -12,7 +12,7 @@ Playwright and TypeScript tests for the LuxeHome demo store. The suite covers pr
 
 ## Verified demo results
 
-The [6 November 2026 browser run](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/actions/runs/42267406039) ran on the draft branch and completed with **10 passed and 5 failed**. The keyboard check passed in Chromium, Firefox, and WebKit. The workflow uploaded an HTML report with failure screenshots and retry traces; GitHub retains artifacts for a limited time.
+The [6 November 2026 browser run](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/actions/runs/42270182967) ran on `main` and completed with **10 passed and 5 failed**. The keyboard check passed in Chromium, Firefox, and WebKit. The workflow uploaded an HTML report with failure screenshots and retry traces; GitHub retains artifacts for a limited time.
 
 | Regression check | Expected | Observed |
 | --- | --- | --- |
