@@ -9,11 +9,16 @@ Playwright and TypeScript tests for the LuxeHome demo store. The suite covers pr
 - [Keyboard check](tests/product-accessibility.spec.ts) — tabs to the quantity increase button, activates it with Enter, and checks that the quantity changes.
 - [GitHub Actions runs](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/actions/workflows/playwright.yml) — browser results and downloadable HTML reports.
 
-## Example regression check
+## Verified demo results
 
-The Add to Cart test sets the quantity to 4, checks the product page value, adds the product, then checks for 4 in the cart. A mismatch fails the cart assertion and identifies the point where the selection was lost.
+The [6 November 2026 browser run](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/actions/runs/42267406039) completed with **10 passed and 5 failed**. The keyboard check passed in Chromium, Firefox, and WebKit. The run includes an HTML report with failure screenshots and retry traces.
 
-The keyboard check covers one control on one product page. Broader accessibility coverage would require additional checks.
+| Regression check | Expected | Observed |
+| --- | --- | --- |
+| Stock limit on product 9 | The quantity stops at the 7 units shown in stock. | It reached 11 in Chromium, Firefox, and WebKit. |
+| Add to Cart on product 1 | The cart keeps the selected quantity of 4. | The cart showed 1 in Firefox and WebKit. |
+
+The [product-page spec](tests/product-page.spec.ts) keeps the expected behavior in its assertions so the demo failures remain visible. The keyboard check covers one control on one product page.
 
 ## Run locally
 
