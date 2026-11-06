@@ -3,7 +3,7 @@
 | Field | Details |
 | --- | --- |
 | Environment | [LuxeHome demo, product 1](https://daristr.github.io/luxehome-qa/#/product/1) · GitHub Actions on Ubuntu 24.04 · Playwright desktop Firefox and WebKit |
-| Evidence | [Verified browser run and HTML report](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/actions/runs/42267406039) · [Product-page regression spec](../tests/product-page.spec.ts) |
+| Evidence | [Verified main-branch run and HTML report](https://github.com/pituclaudia7-arch/luxehome-playwright-tests/actions/runs/42270182967) · [Product-page regression spec](../tests/product-page.spec.ts) |
 
 ## Steps to reproduce
 
